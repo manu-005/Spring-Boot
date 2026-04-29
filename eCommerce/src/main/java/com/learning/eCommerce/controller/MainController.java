@@ -18,7 +18,7 @@ public class MainController {
 
     @GetMapping("/gotoNextPage")
     public ModelAndView gotoNextPage(ModelAndView modelAndView) {
-
+        log.info("go to called");
         modelAndView.setViewName("nextPage.html");
         return modelAndView;
     }
