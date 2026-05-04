@@ -16,10 +16,10 @@ public class MainController {
         System.out.println("main controller Object created..");
     }
 
-    @GetMapping("/gotoNextPage")
+    @GetMapping("/userRegister")
     public ModelAndView gotoNextPage(ModelAndView modelAndView) {
         log.info("go to called");
-        modelAndView.setViewName("nextPage.html");
+        modelAndView.setViewName("UserRegister");
         return modelAndView;
     }
 
