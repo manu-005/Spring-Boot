@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Look Before You Buy</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:#0f172a;
+            color:white;
+            overflow-x:hidden;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar{
+            background:rgba(15,23,42,0.85);
+            backdrop-filter:blur(15px);
+            padding:15px 0;
+        }
+
+        .navbar-brand{
+            color:#ffb703 !important;
+            font-size:30px;
+            font-weight:700;
+        }
+
+        .nav-link{
+            color:white !important;
+            margin-left:15px;
+            transition:0.3s;
+            font-weight:500;
+        }
+
+        .nav-link:hover{
+            color:#ffb703 !important;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            position:relative;
+
+            background:
+                    linear-gradient(rgba(0,0,0,0.7),
+                    rgba(0,0,0,0.8)),
+                    url('https://images.unsplash.com/photo-1445205170230-053b83016050');
+
+            background-size:cover;
+            background-position:center;
+        }
+
+        .hero::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(120deg,
+            rgba(255,183,3,0.2),
+            transparent);
+        }
+
+        .hero-content{
+            position:relative;
+            z-index:2;
+        }
+
+        .hero h1{
+            font-size:75px;
+            font-weight:700;
+            line-height:1.2;
+        }
+
+        .hero span{
+            color:#ffb703;
+        }
+
+        .hero p{
+            color:#d1d5db;
+            font-size:20px;
+            max-width:700px;
+            margin:auto;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .btn-fashion{
+            background:linear-gradient(45deg,#ffb703,#fb8500);
+            border:none;
+            color:black;
+            padding:14px 35px;
+            border-radius:40px;
+            font-weight:600;
+            transition:0.3s;
+            box-shadow:0 8px 20px rgba(255,183,3,0.4);
+        }
+
+        .btn-fashion:hover{
+            transform:translateY(-3px);
+            background:white;
+            color:black;
+        }
+
+        /* ================= FEATURES ================= */
+
+        .feature-box{
+            background:rgba(30,41,59,0.7);
+            border-radius:20px;
+            padding:35px 25px;
+            text-align:center;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.4s;
+            height:100%;
+        }
+
+        .feature-box:hover{
+            transform:translateY(-10px);
+        }
+
+        .feature-box i{
+            font-size:45px;
+            color:#ffb703;
+            margin-bottom:20px;
+        }
+
+        /* ================= PRODUCTS ================= */
+
+        .section-title{
+            font-size:42px;
+            font-weight:700;
+            margin-bottom:50px;
+        }
+
+        .section-title span{
+            color:#ffb703;
+        }
+
+        .product-card{
+            background:rgba(30,41,59,0.7);
+            border-radius:20px;
+            overflow:hidden;
+            transition:0.4s;
+            border:1px solid rgba(255,255,255,0.08);
+            height:100%;
+        }
+
+        .product-card:hover{
+            transform:translateY(-10px);
+        }
+
+        .product-card img{
+            width:100%;
+            height:350px;
+            object-fit:cover;
+            transition:0.4s;
+        }
+
+        .product-card:hover img{
+            transform:scale(1.05);
+        }
+
+        .product-content{
+            padding:25px;
+            text-align:center;
+        }
+
+        .price{
+            color:#ffb703;
+            font-size:24px;
+            font-weight:700;
+        }
+
+        /* ================= TRY ON SECTION ================= */
+
+        .try-on{
+            background:
+                    linear-gradient(rgba(0,0,0,0.7),
+                    rgba(0,0,0,0.8)),
+                    url('https://images.unsplash.com/photo-1483985988355-763728e1935b');
+
+            background-size:cover;
+            background-position:center;
+            padding:100px 20px;
+            border-radius:30px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer{
+            background:black;
+            padding:40px 20px;
+        }
+
+        .social-icons i{
+            font-size:22px;
+            margin:0 10px;
+            color:white;
+            transition:0.3s;
+            cursor:pointer;
+        }
+
+        .social-icons i:hover{
+            color:#ffb703;
+            transform:scale(1.2);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:768px){
+
+            .hero h1{
+                font-size:45px;
+            }
+
+            .hero p{
+                font-size:16px;
+            }
+
+            .section-title{
+                font-size:32px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="#">
+            Look Before You Buy
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menu">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#products">Collections</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#virtual">Virtual Try-On</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Register</a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="container text-center hero-content">
+
+        <h1>
+            Wear Fashion <br>
+            Before You <span>Buy It</span>
+        </h1>
+
+        <p class="mt-4">
+            Experience AI-powered virtual try-on for clothing.
+            Upload your image, try outfits instantly, and shop confidently.
+        </p>
+
+        <div class="mt-5">
+
+            <a href="#products" class="btn btn-fashion me-3">
+                Explore Collection
+            </a>
+
+            <a href="#virtual" class="btn btn-outline-light px-4 py-3 rounded-pill">
+                Try Now
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="container py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="section-title">
+            Why Choose <span>Us</span>
+        </h2>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="feature-box">
+
+                <i class="bi bi-camera"></i>
+
+                <h4>Virtual Try-On</h4>
+
+                <p class="text-light mt-3">
+                    Upload your image and preview outfits instantly using AI.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="feature-box">
+
+                <i class="bi bi-bag-check"></i>
+
+                <h4>Premium Fashion</h4>
+
+                <p class="text-light mt-3">
+                    Explore trending outfits and stylish collections.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="feature-box">
+
+                <i class="bi bi-stars"></i>
+
+                <h4>Smart Shopping</h4>
+
+                <p class="text-light mt-3">
+                    Buy clothes with confidence after trying them virtually.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= PRODUCTS ================= -->
+
+<section class="container py-5" id="products">
+
+    <div class="text-center">
+
+        <h2 class="section-title">
+            Trending <span>Collections</span>
+        </h2>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- PRODUCT 1 -->
+
+        <div class="col-md-4">
+
+            <div class="product-card">
+
+                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+
+                <div class="product-content">
+
+                    <h4>Oversized T-Shirt</h4>
+
+                    <p class="text-light">
+                        Trendy and comfortable streetwear fashion.
+                    </p>
+
+                    <p class="price">₹1,299</p>
+
+                    <button class="btn btn-fashion">
+                        Try Outfit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCT 2 -->
+
+        <div class="col-md-4">
+
+            <div class="product-card">
+
+                <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c">
+
+                <div class="product-content">
+
+                    <h4>Modern Fashion Dress</h4>
+
+                    <p class="text-light">
+                        Elegant fashion for every special occasion.
+                    </p>
+
+                    <p class="price">₹2,999</p>
+
+                    <button class="btn btn-fashion">
+                        Try Outfit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PRODUCT 3 -->
+
+        <div class="col-md-4">
+
+            <div class="product-card">
+
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f">
+
+                <div class="product-content">
+
+                    <h4>Stylish Hoodie</h4>
+
+                    <p class="text-light">
+                        Casual hoodie with premium fabric quality.
+                    </p>
+
+                    <p class="price">₹2,499</p>
+
+                    <button class="btn btn-fashion">
+                        Try Outfit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= VIRTUAL TRY ON ================= -->
+
+<section class="container py-5" id="virtual">
+
+    <div class="try-on text-center">
+
+        <h1 class="fw-bold">
+            AI Virtual Try-On
+        </h1>
+
+        <p class="mt-4 text-light">
+            Upload your photo and see how outfits look on you before purchasing.
+        </p>
+
+        <div class="mt-4">
+
+            <button class="btn btn-fashion">
+                Upload Your Image
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container text-center">
+
+        <h3 class="fw-bold text-warning">
+            Look Before You Buy
+        </h3>
+
+        <p class="text-light mt-3">
+            AI-Powered Fashion Ecommerce Platform.
+        </p>
+
+        <div class="social-icons mt-4">
+
+            <i class="bi bi-facebook"></i>
+            <i class="bi bi-instagram"></i>
+            <i class="bi bi-twitter-x"></i>
+            <i class="bi bi-youtube"></i>
+
+        </div>
+
+        <hr class="text-secondary my-4">
+
+        <p class="text-secondary mb-0">
+            © 2026 Look Before You Buy | All Rights Reserved
+        </p>
+
+    </div>
+
+</footer>
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
