@@ -1,12 +1,19 @@
 package com.learning.eCommerce.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+import java.net.http.HttpResponse;
+
+
+@RestController
+@RequestMapping("/api")
 public class MainController {
 
     private static final Logger log =
@@ -17,16 +24,23 @@ public class MainController {
     }
 
     @GetMapping("/userRegister")
-    public ModelAndView gotoNextPage(ModelAndView modelAndView) {
+    public void  gotoNextPage( ) {
         log.info("go to called");
-        modelAndView.setViewName("UserRegister");
-        return modelAndView;
+
     }
 
     @GetMapping("/back")
     public String back() {
         log.info("back called");
+
         return "index.html";
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<Integer> returnId(@RequestParam int id){
+        log.info("entered id : {}",id);
+
+        return ResponseEntity.ok(id);
     }
 
 }
