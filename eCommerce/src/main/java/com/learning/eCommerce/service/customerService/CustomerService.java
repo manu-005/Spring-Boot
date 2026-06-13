@@ -6,7 +6,6 @@ import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService implements CustomerServiceInterface {
 
+    // All final fields — injected via @RequiredArgsConstructor
     private final CustomerRepository customerRepository;
-
     private final BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    CustomerResponseDTO responseDTO;
-
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     @Override
     public CustomerResponseDTO registerCustomer(CustomerDTO dto) {
@@ -66,6 +60,13 @@ public class CustomerService implements CustomerServiceInterface {
     @Override
     public List<CustomerResponseDTO> getAllCustomers() {
         List<CustomerEntity> allCustomers = customerRepository.findAll();
-        return customerMapper.entityToRespDTOList(allCustomers);  // empty list if no customers
+
+
+        System.out.println("Entity before mapping: " + allCustomers);
+
+        List<CustomerResponseDTO> response = customerMapper.entityToRespDTOList(allCustomers);
+        System.out.println("DTO after mapping: " + response);
+
+        return response;  // empty list if no customers
     }
 }
