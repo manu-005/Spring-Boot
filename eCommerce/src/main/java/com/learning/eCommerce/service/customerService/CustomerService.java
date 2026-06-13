@@ -1,13 +1,16 @@
 package com.learning.eCommerce.service.customerService;
 
-import com.learning.eCommerce.dto.customerDTO.CustomerRegistrationRequestDto;
+import com.learning.eCommerce.mapper.CustomerMapper;
+import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
+import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.repository.CustomerRepository;
-import com.learning.eCommerce.repository.CustomerRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,14 +20,20 @@ public class CustomerService implements CustomerServiceInterface {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    CustomerResponseDTO responseDTO;
+
+    @Autowired
+    private CustomerMapper customerMapper;
+
     @Override
-    public String registerCustomer(CustomerRegistrationRequestDto dto) {
+    public CustomerResponseDTO registerCustomer(CustomerDTO dto) {
 
         if (dto == null) {
             throw new IllegalArgumentException("Request cannot be null");
         }
 
-        if (customerRepository.existsByEmail(dto.getEmail())) {
+        if (customerRepository.existsByEmail (dto.getEmail())) {
             throw new IllegalArgumentException("Email already registered");
         }
 
@@ -49,9 +58,14 @@ public class CustomerService implements CustomerServiceInterface {
 
         entity.setPassword(encryptedPassword);
 
-        customerRepository.save(entity);
+       CustomerEntity created =  customerRepository.save(entity);
 
-        return "Customer Registered Successfully";
+        return customerMapper.entityToRespDTO(created);
     }
 
+    @Override
+    public List<CustomerResponseDTO> getAllCustomers() {
+        List<CustomerEntity> allCustomers = customerRepository.findAll();
+        return customerMapper.entityToRespDTOList(allCustomers);  // empty list if no customers
+    }
 }

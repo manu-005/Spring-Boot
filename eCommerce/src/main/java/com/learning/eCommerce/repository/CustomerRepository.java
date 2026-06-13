@@ -1,14 +1,13 @@
 package com.learning.eCommerce.repository;
 
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerRepository {
+@Repository
+public interface CustomerRepository  extends JpaRepository<CustomerEntity, Long> {
+
     boolean existsByEmail(String email);
 
     boolean existsByMobileNumber(String mobileNumber);
-
-    void save(CustomerEntity entity);
 }
