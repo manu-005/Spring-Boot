@@ -2,6 +2,7 @@ package com.learning.eCommerce.controller.customerController;
 
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
+import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.service.customerService.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -34,12 +36,12 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
-//    // ✅ GET BY ID
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-//        Customer customer = customerService.getCustomerById(id);
-//        return ResponseEntity.ok(customer);
-//    }
+    // GET BY ID
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
+        CustomerResponseDTO responseDTO = customerService.getCustomerById(id);
+        return ResponseEntity.ok(responseDTO);
+    }
 
 
 //    // ✅ UPDATE
