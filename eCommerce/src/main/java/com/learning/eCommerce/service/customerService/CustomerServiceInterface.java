@@ -10,4 +10,6 @@ public interface CustomerServiceInterface {
     CustomerResponseDTO registerCustomer(@Valid CustomerDTO requestDto);
 
     List<CustomerResponseDTO> getAllCustomers();
+
+    CustomerResponseDTO getCustomerById(Long id);
 }

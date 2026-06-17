@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +69,14 @@ public class CustomerService implements CustomerServiceInterface {
         System.out.println("DTO after mapping: " + response);
 
         return response;  // empty list if no customers
+    }
+
+    @Override
+    public CustomerResponseDTO getCustomerById(Long id) {
+
+        CustomerEntity customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("customer not found with id: "+id));
+
+        return customerMapper.entityToRespDTO(customer);
     }
 }
