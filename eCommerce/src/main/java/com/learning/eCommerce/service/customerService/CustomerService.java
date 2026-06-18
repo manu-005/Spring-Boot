@@ -1,5 +1,6 @@
 package com.learning.eCommerce.service.customerService;
 
+import com.learning.eCommerce.exception.CustomerNotFoundException;
 import com.learning.eCommerce.mapper.CustomerMapper;
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
@@ -75,7 +76,7 @@ public class CustomerService implements CustomerServiceInterface {
     public CustomerResponseDTO getCustomerById(Long id) {
 
         CustomerEntity customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("customer not found with id: "+id));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
 
         return customerMapper.entityToRespDTO(customer);
     }
