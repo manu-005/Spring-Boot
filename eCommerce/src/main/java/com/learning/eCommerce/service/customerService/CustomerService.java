@@ -80,4 +80,36 @@ public class CustomerService implements CustomerServiceInterface {
 
         return customerMapper.entityToRespDTO(customer);
     }
+
+    @Override
+    public CustomerResponseDTO updateCustomer(Long id, CustomerDTO dto) {
+
+        // Step 1 — Find customer, throw 404 if not found
+        CustomerEntity customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+
+        // Step 2 — Update only the fields that are provided
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setEmail(dto.getEmail());
+        customer.setMobileNumber(dto.getMobileNumber());
+
+        // Step 3 — Save updated customer
+        CustomerEntity updatedCustomer = customerRepository.save(customer);
+
+        // Step 4 — Convert to response DTO and return
+        return customerMapper.entityToRespDTO(updatedCustomer);
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+
+        // Step 1 — Check if customer exists, throw 404 if not found
+        CustomerEntity customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+
+        // Step 2 — Delete customer
+        customerRepository.delete(customer);
+    }
+
 }

@@ -44,20 +44,20 @@ public class CustomerController {
     }
 
 
-//    // ✅ UPDATE
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Customer> updateCustomer(
-//            @PathVariable Long id,
-//            @RequestBody CustomerDTO dto) {
-//        Customer updated = customerService.updateCustomer(id, dto);
-//        return ResponseEntity.ok(updated);
-//    }
+    // ✅ UPDATE
+    @PutMapping("/updateCustomerById{id}")
+    public ResponseEntity<CustomerResponseDTO> updateCustomer(
+            @PathVariable Long id,
+            @RequestBody CustomerDTO dto) {
+        CustomerResponseDTO updated = customerService.updateCustomer(id, dto);
+        return ResponseEntity.ok(updated);
+    }
 
-//    // ✅ DELETE
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
-//        customerService.deleteCustomer(id);
-//        return ResponseEntity.ok("Customer deleted successfully");
-//    }
+    // ✅ DELETE
+    @DeleteMapping("/deleteCustomerById{id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.ok("Customer deleted successfully");
+    }
 
 }
