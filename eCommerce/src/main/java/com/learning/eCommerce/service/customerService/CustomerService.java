@@ -1,6 +1,8 @@
 package com.learning.eCommerce.service.customerService;
 
 import com.learning.eCommerce.exception.CustomerNotFoundException;
+import com.learning.eCommerce.exception.DuplicateEmailException;
+import com.learning.eCommerce.exception.DuplicateMobileNumberException;
 import com.learning.eCommerce.mapper.CustomerMapper;
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
@@ -11,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +27,15 @@ public class CustomerService implements CustomerServiceInterface {
     public CustomerResponseDTO registerCustomer(CustomerDTO dto) {
 
         if (dto == null) {
-            throw new IllegalArgumentException("Request cannot be null");
+            throw new CustomerNotFoundException("Request cannot be null");
         }
 
         if (customerRepository.existsByEmail (dto.getEmail())) {
-            throw new IllegalArgumentException("Email already registered");
+            throw new DuplicateEmailException("Email already registered");
         }
 
         if (customerRepository.existsByMobileNumber(dto.getMobileNumber())) {
-            throw new IllegalArgumentException("Mobile number already registered");
+            throw new DuplicateMobileNumberException("Mobile number already registered");
         }
 
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {

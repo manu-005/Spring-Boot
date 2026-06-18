@@ -1,6 +1,8 @@
 package com.learning.eCommerce.exceptionHandler;
 
 import com.learning.eCommerce.exception.CustomerNotFoundException;
+import com.learning.eCommerce.exception.DuplicateEmailException;
+import com.learning.eCommerce.exception.DuplicateMobileNumberException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,4 +35,15 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<String> handleDuplicateEmail(DuplicateEmailException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateMobileNumberException.class)
+    public ResponseEntity<String> handleDuplicateMobile(DuplicateMobileNumberException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
 }
