@@ -1,8 +1,8 @@
 package com.learning.eCommerce.service.customerService;
 
-import com.learning.eCommerce.exception.CustomerNotFoundException;
-import com.learning.eCommerce.exception.DuplicateEmailException;
-import com.learning.eCommerce.exception.DuplicateMobileNumberException;
+import com.learning.eCommerce.exception.customerException.CustomerNotFoundException;
+import com.learning.eCommerce.exception.customerException.DuplicateEmailException;
+import com.learning.eCommerce.exception.customerException.DuplicateMobileNumberException;
 import com.learning.eCommerce.mapper.CustomerMapper;
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;

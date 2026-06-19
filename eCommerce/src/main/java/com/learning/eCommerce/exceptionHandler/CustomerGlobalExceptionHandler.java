@@ -1,8 +1,8 @@
 package com.learning.eCommerce.exceptionHandler;
 
-import com.learning.eCommerce.exception.CustomerNotFoundException;
-import com.learning.eCommerce.exception.DuplicateEmailException;
-import com.learning.eCommerce.exception.DuplicateMobileNumberException;
+import com.learning.eCommerce.exception.customerException.CustomerNotFoundException;
+import com.learning.eCommerce.exception.customerException.DuplicateEmailException;
+import com.learning.eCommerce.exception.customerException.DuplicateMobileNumberException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 // GlobalExceptionHandler.java
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class CustomerGlobalExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<String> handleCustomerNotFound(CustomerNotFoundException ex) {
