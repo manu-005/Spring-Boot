@@ -1,57 +1,72 @@
 package com.learning.eCommerce.service.productService;
 
+import com.learning.eCommerce.dto.productsDTO.ProductRequestDto;
+import com.learning.eCommerce.dto.productsDTO.ProductResponseDto;
+import com.learning.eCommerce.entity.category.Category;
+import com.learning.eCommerce.entity.products.ProductEntity;
+import com.learning.eCommerce.entity.products.ProductImage;
+import com.learning.eCommerce.enums.ProductStatusEnum;
+import com.learning.eCommerce.repository.CategoryRepository;
+import com.learning.eCommerce.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final ProductMapper productMapper;
 
-    public ProductResponseDto createProduct(ProductDto dto) {
-        CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+    public ProductResponseDto createProduct(ProductRequestDto dto) {
 
-        ProductEntity entity = productMapper.toEntity(dto, category);
-        ProductEntity saved = productRepository.save(entity);
-        return productMapper.toResponseDto(saved);
-    }
-
-    public List<ProductResponseDto> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(productMapper::toResponseDto)
-                .toList();
-    }
-
-    public ProductResponseDto getProductById(Long id) {
-        ProductEntity entity = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
-        return productMapper.toResponseDto(entity);
-    }
-
-    public ProductResponseDto updateProduct(Long id, ProductDto dto) {
-        ProductEntity entity = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
-
-        CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setStockQuantity(dto.getStockQuantity());
-        entity.setCategory(category);
-
-        ProductEntity updated = productRepository.save(entity);
-        return productMapper.toResponseDto(updated);
-    }
-
-    public void deleteProduct(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("Product not found");
+        if (productRepository.existsBySku(dto.getSku())) {
+            throw new RuntimeException("SKU already exists");
         }
-        productRepository.deleteById(id);
+
+        Category category = categoryRepository
+                .findById(dto.getCategoryId())
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found"));
+
+        ProductEntity product = new ProductEntity();
+
+        product.setName(dto.getName());
+        product.setSku(dto.getSku());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+        product.setQuantity(dto.getQuantity());
+        product.setBrand(dto.getBrand());
+
+        product.setCategory(category);
+
+        if (dto.getQuantity() == 0) {
+            product.setStatus(ProductStatusEnum.OUT_OF_STOCK);
+        } else {
+            product.setStatus(ProductStatusEnum.ACTIVE);
+        }
+
+        if (dto.getImageUrls() != null) {
+
+            List<ProductImage> images = new ArrayList<>();
+
+            for (String imageUrl : dto.getImageUrls()) {
+
+                ProductImage image = new ProductImage();
+
+                image.setImageUrl(imageUrl);
+                image.setProduct(product);
+
+                images.add(image);
+            }
+
+            product.setImages(images);
+        }
+
+        ProductEntity savedProduct = productRepository.save(product);
+        return null;
     }
 }
-

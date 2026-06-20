@@ -1,5 +1,14 @@
 package com.learning.eCommerce.controller.productController;
 
+import com.learning.eCommerce.dto.productsDTO.ProductDto;
+import com.learning.eCommerce.dto.productsDTO.ProductResponseDto;
+import com.learning.eCommerce.service.productService.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -7,6 +16,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    //create product
     @PostMapping
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(dto));

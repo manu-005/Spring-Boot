@@ -1,6 +1,9 @@
 package com.learning.eCommerce.repository;
 
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+import com.learning.eCommerce.entity.category.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 
 }

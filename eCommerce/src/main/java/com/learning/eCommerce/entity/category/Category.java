@@ -1,19 +1,18 @@
 package com.learning.eCommerce.entity.category;
 
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @Table(name = "categories")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class CategoryEntity {
+public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-}
+    private String categoryName;
 
+    private String description;
+}
