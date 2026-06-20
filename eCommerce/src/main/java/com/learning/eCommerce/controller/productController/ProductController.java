@@ -16,7 +16,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/createProduct")
+    @PostMapping
     public ResponseEntity<ProductResponseDto> createProduct(
             @Valid @RequestBody ProductRequestDto dto) {
 
@@ -27,4 +27,5 @@ public class ProductController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+
 }
