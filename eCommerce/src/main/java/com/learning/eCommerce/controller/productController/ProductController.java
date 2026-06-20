@@ -1,13 +1,13 @@
 package com.learning.eCommerce.controller.productController;
 
-import com.learning.eCommerce.dto.productsDTO.ProductDto;
+import com.learning.eCommerce.dto.productsDTO.ProductRequestDto;
 import com.learning.eCommerce.dto.productsDTO.ProductResponseDto;
 import com.learning.eCommerce.service.productService.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/api/products")
@@ -16,30 +16,15 @@ public class ProductController {
 
     private final ProductService productService;
 
-    //create product
-    @PostMapping
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(dto));
-    }
+    @PostMapping("/createProduct")
+    public ResponseEntity<ProductResponseDto> createProduct(
+            @Valid @RequestBody ProductRequestDto dto) {
 
-    @GetMapping
-    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
+        ProductResponseDto response =
+                productService.createProduct(dto);
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(productService.getProductById(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto dto) {
-        return ResponseEntity.ok(productService.updateProduct(id, dto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 }

@@ -6,6 +6,7 @@ import com.learning.eCommerce.entity.category.Category;
 import com.learning.eCommerce.entity.products.ProductEntity;
 import com.learning.eCommerce.entity.products.ProductImage;
 import com.learning.eCommerce.enums.ProductStatusEnum;
+import com.learning.eCommerce.mapper.ProductMapper;
 import com.learning.eCommerce.repository.CategoryRepository;
 import com.learning.eCommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductMapper productMapper;
 
     public ProductResponseDto createProduct(ProductRequestDto dto) {
 
@@ -67,6 +69,9 @@ public class ProductService {
         }
 
         ProductEntity savedProduct = productRepository.save(product);
-        return null;
+
+        ProductResponseDto response = productMapper.toResponseDto(savedProduct);
+        return response;
+
     }
 }
