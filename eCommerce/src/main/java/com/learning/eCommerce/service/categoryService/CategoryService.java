@@ -66,4 +66,14 @@ public class CategoryService {
 
         return categoryMapper.toResponseDto(updatedCategory);
     }
+
+    public void deleteCategory(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                "Category not found with id: " + id));
+
+        categoryRepository.delete(category);
+    }
 }
