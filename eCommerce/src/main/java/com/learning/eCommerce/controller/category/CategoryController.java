@@ -35,4 +35,14 @@ public class CategoryController {
                 categoryService.getAllCategories()
         );
     }
+
+    // get categories by id
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponseDto> getCategoryById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                categoryService.getCategoryById(id)
+        );
+    }
 }

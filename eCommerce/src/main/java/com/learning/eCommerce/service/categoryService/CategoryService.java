@@ -38,4 +38,13 @@ public class CategoryService {
                 .map(categoryMapper::toResponseDto)
                 .toList();
     }
+
+    public CategoryResponseDto getCategoryById(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found"));
+
+        return categoryMapper.toResponseDto(category);
+    }
 }
