@@ -3,7 +3,8 @@ package com.learning.eCommerce.service.categoryService;
 import com.learning.eCommerce.dto.category.CategoryRequestDto;
 import com.learning.eCommerce.dto.category.CategoryResponseDto;
 import com.learning.eCommerce.entity.category.Category;
-import com.learning.eCommerce.exception.category.CategoryAlreadyExistsException;
+import com.learning.eCommerce.exception.categoryException.CategoryAlreadyExistsException;
+import com.learning.eCommerce.exception.productException.CategoryNotFoundException;
 import com.learning.eCommerce.mapper.CategoryMapper;
 import com.learning.eCommerce.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,26 @@ public class CategoryService {
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Category not found"));
+                        new CategoryNotFoundException("Category not found with id: " + id));
 
         return categoryMapper.toResponseDto(category);
+    }
+
+    public CategoryResponseDto updateCategory(
+            Long id,
+            CategoryRequestDto dto) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                "Category not found with id: " + id));
+
+        category.setName(dto.getName());
+        category.setDescription(dto.getDescription());
+
+        Category updatedCategory =
+                categoryRepository.save(category);
+
+        return categoryMapper.toResponseDto(updatedCategory);
     }
 }
