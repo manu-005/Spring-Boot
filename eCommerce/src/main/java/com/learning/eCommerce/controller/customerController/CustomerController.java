@@ -21,14 +21,14 @@ public class CustomerController {
     CustomerService customerService;
 
     //  CREATE
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<CustomerResponseDTO> createCustomer(@Valid @RequestBody CustomerDTO dto) {
         CustomerResponseDTO created = customerService.registerCustomer(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     //  GET ALL
-    @GetMapping("/getAllCustomers")
+    @GetMapping
     public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers() {
         List<CustomerResponseDTO> customers = customerService.getAllCustomers();
         System.out.println(customers);
@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     // GET BY ID
-    @GetMapping("/getCustomerById{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> getCustomerById(@PathVariable Long id) {
         CustomerResponseDTO responseDTO = customerService.getCustomerById(id);
         return ResponseEntity.ok(responseDTO);
@@ -44,7 +44,7 @@ public class CustomerController {
 
 
     // ✅ UPDATE
-    @PutMapping("/updateCustomerById{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> updateCustomer(
             @PathVariable Long id,
             @RequestBody CustomerDTO dto) {
@@ -53,12 +53,10 @@ public class CustomerController {
     }
 
     // ✅ DELETE
-    @DeleteMapping("/deleteCustomerById{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.ok("Customer deleted successfully");
     }
-
-
 
 }

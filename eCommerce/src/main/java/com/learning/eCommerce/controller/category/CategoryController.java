@@ -63,8 +63,8 @@ public class CategoryController {
             @PathVariable Long id) {
 
         categoryService.deleteCategory(id);
-
-        return ResponseEntity.ok("Category deleted successfully");
+        return ResponseEntity.noContent().build();
+//        return ResponseEntity.ok("Category deleted successfully");
     }
 
 
