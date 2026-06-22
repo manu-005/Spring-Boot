@@ -27,7 +27,7 @@ public class CategoryController {
                 .body(categoryService.createCategory(dto));
     }
 
-    //get all category
+    //get all categories
     @GetMapping
     public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
 
@@ -66,6 +66,4 @@ public class CategoryController {
         return ResponseEntity.noContent().build();
 //        return ResponseEntity.ok("Category deleted successfully");
     }
-
-
 }

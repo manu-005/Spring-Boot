@@ -2,7 +2,6 @@ package com.learning.eCommerce.controller.customerController;
 
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
-import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.service.customerService.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
