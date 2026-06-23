@@ -3,6 +3,7 @@ package com.learning.eCommerce.controller.category;
 import com.learning.eCommerce.dto.category.CategoryRequestDto;
 import com.learning.eCommerce.dto.category.CategoryResponseDto;
 import com.learning.eCommerce.service.categoryService.CategoryService;
+import com.learning.eCommerce.service.categoryService.CategoryServiceInterface;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final CategoryServiceInterface categoryService;
 
     // adding category
     @PostMapping

@@ -18,7 +18,7 @@ public class ProductRequestDto {
     private String description;
 
     @NotNull(message = "Price is required")
-    @Positive(message = "Price must be greater than 0")
+    @DecimalMin(value = "0.01", message = "Price must be greater than 0")
     private BigDecimal price;
 
     @NotNull(message = "Quantity is required")
@@ -28,7 +28,7 @@ public class ProductRequestDto {
     @NotBlank(message = "Brand is required")
     private String brand;
 
-    @NotNull(message = "Category is required")
+    @NotNull(message = "Category Id is required")
     private Long categoryId;
 
     private List<String> imageUrls;

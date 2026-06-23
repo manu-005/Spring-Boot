@@ -3,6 +3,7 @@ package com.learning.eCommerce.dto.productsDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -14,6 +15,8 @@ public class ProductResponseDto {
 
     private String sku;
 
+    private String description;
+
     private BigDecimal price;
 
     private Integer quantity;
@@ -22,7 +25,13 @@ public class ProductResponseDto {
 
     private String status;
 
+    private Long categoryId;
+
     private String categoryName;
 
     private List<String> imageUrls;
+
+    private LocalDateTime createdDate;
+
+    private LocalDateTime updatedDate;
 }
