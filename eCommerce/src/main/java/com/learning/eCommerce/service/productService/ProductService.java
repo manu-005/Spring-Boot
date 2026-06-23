@@ -6,15 +6,19 @@ import com.learning.eCommerce.entity.category.Category;
 import com.learning.eCommerce.entity.products.ProductEntity;
 import com.learning.eCommerce.entity.products.ProductImage;
 import com.learning.eCommerce.enums.ProductStatusEnum;
+import com.learning.eCommerce.exception.productException.CategoryNotFoundException;
+import com.learning.eCommerce.exception.productException.SkuAlreadyExistsException;
 import com.learning.eCommerce.mapper.ProductMapper;
 import com.learning.eCommerce.repository.CategoryRepository;
 import com.learning.eCommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService implements ProductServiceInterface{
@@ -23,35 +27,30 @@ public class ProductService implements ProductServiceInterface{
     private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
+    @Override
     public ProductResponseDto createProduct(ProductRequestDto dto) {
 
         if (productRepository.existsBySku(dto.getSku())) {
-            throw new RuntimeException("SKU already exists");
+            throw new SkuAlreadyExistsException("SKU already exists");
         }
 
         Category category = categoryRepository
                 .findById(dto.getCategoryId())
                 .orElseThrow(() ->
-                        new RuntimeException("Category not found"));
+                        new CategoryNotFoundException("Category not found"));
 
-        ProductEntity product = new ProductEntity();
+        ProductEntity entity = productMapper.toEntity(dto);
 
-        product.setName(dto.getName());
-        product.setSku(dto.getSku());
-        product.setDescription(dto.getDescription());
-        product.setPrice(dto.getPrice());
-        product.setQuantity(dto.getQuantity());
-        product.setBrand(dto.getBrand());
 
-        product.setCategory(category);
+        entity.setCategory(category);
 
         if (dto.getQuantity() == 0) {
-            product.setStatus(ProductStatusEnum.OUT_OF_STOCK);
+            entity.setStatus(ProductStatusEnum.OUT_OF_STOCK);
         } else {
-            product.setStatus(ProductStatusEnum.ACTIVE);
+            entity.setStatus(ProductStatusEnum.ACTIVE);
         }
 
-        if (dto.getImageUrls() != null) {
+        if (dto.getImageUrls() != null && !dto.getImageUrls().isEmpty()) {
 
             List<ProductImage> images = new ArrayList<>();
 
@@ -60,20 +59,19 @@ public class ProductService implements ProductServiceInterface{
                 ProductImage image = new ProductImage();
 
                 image.setImageUrl(imageUrl);
-                image.setProduct(product);
+                image.setProduct(entity);
 
                 images.add(image);
             }
 
-            product.setImages(images);
+            entity.setImages(images);
         }
 
-        ProductEntity savedProduct = productRepository.save(product);
-
-        ProductResponseDto response = productMapper.toResponseDto(savedProduct);
-        return response;
+//        ProductEntity savedProduct = productRepository.save(entity);
+log.info("Entity :"+entity);
+        ProductEntity savedProduct=null;
+        return productMapper.toResponseDto(savedProduct);
     }
-
     @Override
     public ProductResponseDto getProductById(Long id) {
         return null;
