@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductService implements ProductServiceInterface{
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -72,6 +72,25 @@ public class ProductService {
 
         ProductResponseDto response = productMapper.toResponseDto(savedProduct);
         return response;
+    }
+
+    @Override
+    public ProductResponseDto getProductById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<ProductResponseDto> getAllProducts() {
+        return List.of();
+    }
+
+    @Override
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto requestDto) {
+        return null;
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
 
     }
 }
