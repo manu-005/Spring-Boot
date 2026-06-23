@@ -2,7 +2,9 @@ package com.learning.eCommerce.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
+@ToString(exclude = "product")
 @Data
 @Entity
 @Table(name = "product_images")

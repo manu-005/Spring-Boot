@@ -4,12 +4,14 @@ import com.learning.eCommerce.entity.category.Category;
 import com.learning.eCommerce.enums.ProductStatusEnum;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString(exclude = {"images", "category"})
 @Data
 @Entity
 @Table(

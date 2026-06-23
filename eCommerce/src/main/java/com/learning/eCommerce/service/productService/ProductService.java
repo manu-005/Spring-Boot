@@ -68,9 +68,9 @@ public class ProductService implements ProductServiceInterface{
         }
 
 //        ProductEntity savedProduct = productRepository.save(entity);
-log.info("Entity :"+entity);
-        ProductEntity savedProduct=null;
-        return productMapper.toResponseDto(savedProduct);
+//log.info("Entity :"+entity);
+        System.out.println(":::" + entity);
+        return productMapper.toResponseDto(entity);
     }
     @Override
     public ProductResponseDto getProductById(Long id) {
