@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -85,7 +86,12 @@ public class ProductService implements ProductServiceInterface{
 
     @Override
     public List<ProductResponseDto> getAllProducts() {
-        return List.of();
+
+        List<ProductEntity> entities = productRepository.findAll();
+
+        return entities.stream()
+                .map(productMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
