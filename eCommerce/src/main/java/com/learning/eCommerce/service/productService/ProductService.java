@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProductService implements ProductServiceInterface{
+public class ProductService implements ProductServiceInterface {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -70,11 +70,10 @@ public class ProductService implements ProductServiceInterface{
             entity.setImages(images);
         }
 
-//        ProductEntity savedProduct = productRepository.save(entity);
-//log.info("Entity :"+entity);
-        System.out.println(":::" + entity);
+        ProductEntity savedProduct = productRepository.save(entity);
         return productMapper.toResponseDto(entity);
     }
+
     @Override
     public ProductResponseDto getProductById(Long id) {
 
@@ -96,11 +95,39 @@ public class ProductService implements ProductServiceInterface{
 
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto requestDto) {
-        return null;
+
+        ProductEntity existingProduct = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException("Product not found with id: " + id));
+
+        if (!existingProduct.getSku().equals(requestDto.getSku())
+                && productRepository.existsBySku(requestDto.getSku())) {
+
+            throw new SkuAlreadyExistsException(
+                    "SKU already exists: " + requestDto.getSku());
+        }
+
+        Category category = categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() ->
+                        new CategoryNotFoundException(
+                                "Category not found with id: "
+                                        + requestDto.getCategoryId()));
+
+        productMapper.updateProductFromDto(requestDto, existingProduct);
+
+        ProductEntity updatedProduct = productRepository.save(existingProduct);
+
+        return productMapper.toResponseDto(updatedProduct);
     }
 
     @Override
     public void deleteProduct(Long id) {
 
+        ProductEntity product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new ProductNotFoundException(
+                                "Product not found with id: " + id));
+
+        productRepository.delete(product);
     }
 }
