@@ -7,6 +7,7 @@ import com.learning.eCommerce.entity.products.ProductEntity;
 import com.learning.eCommerce.entity.products.ProductImage;
 import com.learning.eCommerce.enums.ProductStatusEnum;
 import com.learning.eCommerce.exception.productException.CategoryNotFoundException;
+import com.learning.eCommerce.exception.productException.ProductNotFoundException;
 import com.learning.eCommerce.exception.productException.SkuAlreadyExistsException;
 import com.learning.eCommerce.mapper.ProductMapper;
 import com.learning.eCommerce.repository.CategoryRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -74,7 +76,11 @@ public class ProductService implements ProductServiceInterface{
     }
     @Override
     public ProductResponseDto getProductById(Long id) {
-        return null;
+
+        ProductEntity entity = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+
+        return productMapper.toResponseDto(entity);
     }
 
     @Override
