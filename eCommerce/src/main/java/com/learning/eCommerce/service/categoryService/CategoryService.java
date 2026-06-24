@@ -4,9 +4,11 @@ import com.learning.eCommerce.dto.category.CategoryRequestDto;
 import com.learning.eCommerce.dto.category.CategoryResponseDto;
 import com.learning.eCommerce.entity.category.Category;
 import com.learning.eCommerce.exception.categoryException.CategoryAlreadyExistsException;
+import com.learning.eCommerce.exception.categoryException.CategoryInUseException;
 import com.learning.eCommerce.exception.productException.CategoryNotFoundException;
 import com.learning.eCommerce.mapper.CategoryMapper;
 import com.learning.eCommerce.repository.CategoryRepository;
+import com.learning.eCommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class CategoryService implements CategoryServiceInterface{
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final ProductRepository productRepository;
 
     public CategoryResponseDto createCategory(CategoryRequestDto dto) {
 
@@ -73,6 +76,11 @@ public class CategoryService implements CategoryServiceInterface{
                 .orElseThrow(() ->
                         new CategoryNotFoundException(
                                 "Category not found with id: " + id));
+
+        if (productRepository.existsByCategoryId(id)) {
+            throw new CategoryInUseException(
+                    "Cannot delete category because products are associated with it");
+        }
 
         categoryRepository.delete(category);
     }
