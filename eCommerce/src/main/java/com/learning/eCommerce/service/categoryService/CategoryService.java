@@ -81,7 +81,6 @@ public class CategoryService implements CategoryServiceInterface{
             throw new CategoryInUseException(
                     "Cannot delete category because products are associated with it");
         }
-
         categoryRepository.delete(category);
     }
 }
