@@ -127,7 +127,6 @@ public class ProductService implements ProductServiceInterface {
                 .orElseThrow(() ->
                         new ProductNotFoundException(
                                 "Product not found with id: " + id));
-
         productRepository.delete(product);
     }
 }
