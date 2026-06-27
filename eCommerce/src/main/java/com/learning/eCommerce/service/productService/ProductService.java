@@ -69,7 +69,6 @@ public class ProductService implements ProductServiceInterface {
 
             entity.setImages(images);
         }
-
         ProductEntity savedProduct = productRepository.save(entity);
         return productMapper.toResponseDto(entity);
     }
