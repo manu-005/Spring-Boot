@@ -10,7 +10,6 @@ import org.mapstruct.MappingTarget;
 public interface ProductMapper {
 
     ProductEntity toEntity(ProductRequestDto dto);
-
     ProductResponseDto toResponseDto(ProductEntity entity);
 
     void updateProductFromDto(
