@@ -1,8 +1,12 @@
 package com.learning.eCommerce.entity.cartEntity;
 
+import com.learning.eCommerce.entity.cartItemEntity.CartItemEntity;
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
