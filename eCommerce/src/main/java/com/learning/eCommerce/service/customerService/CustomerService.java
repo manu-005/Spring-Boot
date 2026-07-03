@@ -1,18 +1,23 @@
 package com.learning.eCommerce.service.customerService;
 
+import com.learning.eCommerce.dto.loginDto.AuthResponseDTO;
+import com.learning.eCommerce.dto.loginDto.LogInRequestDTO;
 import com.learning.eCommerce.exception.customerException.CustomerNotFoundException;
 import com.learning.eCommerce.exception.customerException.DuplicateEmailException;
 import com.learning.eCommerce.exception.customerException.DuplicateMobileNumberException;
+import com.learning.eCommerce.exception.customerException.InvalidCredential;
 import com.learning.eCommerce.mapper.CustomerMapper;
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.repository.CustomerRepository;
+import com.learning.eCommerce.service.jwtService.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class CustomerService implements CustomerServiceInterface {
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final CustomerMapper customerMapper;
+    private final JwtService jwtService;
 
     @Override
     public CustomerResponseDTO registerCustomer(CustomerDTO dto) {
@@ -30,7 +36,7 @@ public class CustomerService implements CustomerServiceInterface {
             throw new CustomerNotFoundException("Request cannot be null");
         }
 
-        if (customerRepository.existsByEmail (dto.getEmail())) {
+        if (customerRepository.existsByEmail(dto.getEmail()).isPresent()) {
             throw new DuplicateEmailException("Email already registered");
         }
 
@@ -55,7 +61,7 @@ public class CustomerService implements CustomerServiceInterface {
 
         entity.setPassword(encryptedPassword);
 
-       CustomerEntity created =  customerRepository.save(entity);
+        CustomerEntity created = customerRepository.save(entity);
 
         return customerMapper.entityToRespDTO(created);
     }
@@ -111,6 +117,32 @@ public class CustomerService implements CustomerServiceInterface {
 
         // Step 2 — Delete customer
         customerRepository.delete(customer);
+    }
+
+    @Override
+    public AuthResponseDTO customerLogin(LogInRequestDTO dto) {
+
+        Optional<CustomerEntity> optionalCustomer = customerRepository.existsByEmail(dto.getEmail());
+
+        if (optionalCustomer.isEmpty()) {
+            throw new InvalidCredential("Invalid email or password");
+        }
+
+        CustomerEntity customer = optionalCustomer.get();
+
+        // Compare raw password with encrypted password
+        if (!passwordEncoder.matches(dto.getPassword(), customer.getPassword())) {
+            throw new InvalidCredential("Invalid email or password");
+        }
+
+        // Generate JWT token
+        String token = jwtService.generateToken(customer.getEmail());
+
+        AuthResponseDTO response = new AuthResponseDTO();
+        response.setToken(token);
+        response.setMessage("Login successful");
+
+        return response;
     }
 
 }
