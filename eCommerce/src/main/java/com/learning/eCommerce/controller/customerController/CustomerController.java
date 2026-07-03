@@ -2,6 +2,8 @@ package com.learning.eCommerce.controller.customerController;
 
 import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
+import com.learning.eCommerce.dto.loginDto.AuthResponseDTO;
+import com.learning.eCommerce.dto.loginDto.LogInRequestDTO;
 import com.learning.eCommerce.service.customerService.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,14 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.ok("Customer deleted successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> customerLogin(@Valid @RequestBody LogInRequestDTO dto) {
+
+        AuthResponseDTO response = customerService.customerLogin(dto);
+
+        return ResponseEntity.ok(response);
     }
 
 }

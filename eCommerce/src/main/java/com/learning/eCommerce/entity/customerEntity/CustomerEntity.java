@@ -1,6 +1,7 @@
 package com.learning.eCommerce.entity.customerEntity;
 
 
+import com.learning.eCommerce.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -49,4 +50,7 @@ public class CustomerEntity {
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
