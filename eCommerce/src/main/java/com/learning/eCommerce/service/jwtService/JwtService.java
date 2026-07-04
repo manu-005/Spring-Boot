@@ -10,7 +10,7 @@ import java.util.Date;
 public class JwtService {
 
     private String SECRET =
-            "abcdefghijklmnopqrstuvwxyz123456789";
+            "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public String generateToken(String email) {
 

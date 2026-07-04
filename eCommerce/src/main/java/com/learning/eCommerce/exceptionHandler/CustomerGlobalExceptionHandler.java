@@ -3,6 +3,7 @@ package com.learning.eCommerce.exceptionHandler;
 import com.learning.eCommerce.exception.customerException.CustomerNotFoundException;
 import com.learning.eCommerce.exception.customerException.DuplicateEmailException;
 import com.learning.eCommerce.exception.customerException.DuplicateMobileNumberException;
+import com.learning.eCommerce.exception.customerException.InvalidCredential;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,6 +45,12 @@ public class CustomerGlobalExceptionHandler {
     @ExceptionHandler(DuplicateMobileNumberException.class)
     public ResponseEntity<String> handleDuplicateMobile(DuplicateMobileNumberException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCredential.class)
+    public ResponseEntity<String> handleInvalidCredential(InvalidCredential ex) {
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
 }

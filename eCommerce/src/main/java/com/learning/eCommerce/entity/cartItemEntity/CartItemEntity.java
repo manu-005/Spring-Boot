@@ -4,7 +4,6 @@ import com.learning.eCommerce.entity.cartEntity.CartEntity;
 import com.learning.eCommerce.entity.products.ProductEntity;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Data
 @Entity

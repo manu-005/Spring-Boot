@@ -36,7 +36,7 @@ public class CustomerService implements CustomerServiceInterface {
             throw new CustomerNotFoundException("Request cannot be null");
         }
 
-        if (customerRepository.existsByEmail(dto.getEmail()).isPresent()) {
+        if (customerRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new DuplicateEmailException("Email already registered");
         }
 
@@ -122,7 +122,7 @@ public class CustomerService implements CustomerServiceInterface {
     @Override
     public AuthResponseDTO customerLogin(LogInRequestDTO dto) {
 
-        Optional<CustomerEntity> optionalCustomer = customerRepository.existsByEmail(dto.getEmail());
+        Optional<CustomerEntity> optionalCustomer = customerRepository.findByEmail(dto.getEmail());
 
         if (optionalCustomer.isEmpty()) {
             throw new InvalidCredential("Invalid email or password");
