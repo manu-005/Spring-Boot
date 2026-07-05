@@ -1,8 +1,8 @@
 #from which java or jdk our app will star working
-FROM openjdk
+FROM eclipse-temurin
 
 #app working directory
-WORKDIR /Spring-Boot
+WORKDIR /eCommerce
 
 #copying all files to docker using jar files
 COPY target/eCommerce-0.0.1-SNAPSHOT.jar app.jar
