@@ -43,7 +43,6 @@ public class CustomerController {
         return ResponseEntity.ok(responseDTO);
     }
 
-
     // ✅ UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> updateCustomer(
