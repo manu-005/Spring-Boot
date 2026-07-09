@@ -1,4 +1,4 @@
-package com.learning.eCommerce.service.jwtService;
+package com.learning.eCommerce.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

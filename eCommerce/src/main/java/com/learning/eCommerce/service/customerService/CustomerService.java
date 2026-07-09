@@ -11,7 +11,7 @@ import com.learning.eCommerce.dto.customerDTO.CustomerDTO;
 import com.learning.eCommerce.dto.customerDTO.CustomerResponseDTO;
 import com.learning.eCommerce.entity.customerEntity.CustomerEntity;
 import com.learning.eCommerce.repository.CustomerRepository;
-import com.learning.eCommerce.service.jwtService.JwtService;
+import com.learning.eCommerce.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
